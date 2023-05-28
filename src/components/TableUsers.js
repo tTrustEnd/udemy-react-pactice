@@ -7,10 +7,9 @@ import ModalEditUser from './ModalEditUser';
 import _ from 'lodash'
 import ModalConfirm from './ModalConfirm'
 import './TableUsers.scss'
-import debounce from 'lodash'
+import debounce from 'lodash.debounce'
 import { CSVLink, CSVDownload } from "react-csv";
 import Papa from 'papaparse'
-import { Toast } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
 const TableUsers = (props) => {
@@ -103,8 +102,8 @@ const handleSearch = debounce((event) => {
   }else{
     getUsers(1)
   }
-}
-, 2000)
+},100)
+
 
 
 const getUsersExport = (event, done) => {
@@ -135,7 +134,7 @@ const handleImportCSV = (event) => {
       // header:true,
       complete: function(results) {
         let rawCSV = results.data;
-        if (rawCSV.length >0){
+        if (rawCSV.length > 1){
         if(rawCSV[0] && rawCSV[0].length===3){
           if(rawCSV[0][0] !== 'email'
           ||rawCSV[0][1] !== 'first_name'
@@ -160,8 +159,10 @@ const handleImportCSV = (event) => {
         }
           // console.log(rawCSV[0])
           
-        }else
-        toast.error('not found csv data')
+        }else{
+          toast.error('not found csv data')
+        }
+       
       }
     });
   }
@@ -198,7 +199,7 @@ const handleImportCSV = (event) => {
           <input 
           className='form-control'
           placeholder={'Search user by email'}
-          onChange={ (event) => handleSearch(event)}
+          onChange={(event) => handleSearch(event)}
           />
         </div>
 
