@@ -1,67 +1,67 @@
-import {Modal, Button} from 'react-bootstrap'
-import {useState, useEffect} from 'react'
-import {postCreateUser} from '../service/UserService'
+import { Modal, Button } from 'react-bootstrap'
+import { useState, useEffect } from 'react'
+import { postCreateUser } from '../service/UserService'
 import { toast } from 'react-toastify';
-import {putUpdateUser} from '../service/UserService'
+import { putUpdateUser } from '../service/UserService'
 
 
 const ModalEditUser = (props) => {
-        const {show, handleClose, dataUserEdit, handleEditUserFromModal} = props;
-        const [name, setName] = useState('')
-        const [job, setJob] = useState('')
-    
-const handelEditUser = async () => {
-    let res = await putUpdateUser(name, job)
-    if(res && res.updatedAt){
-        handleEditUserFromModal({
-            first_name:name,
-            id: dataUserEdit.id
-        })
-         handleClose();
-        toast.success('Update user succced');
-    }
-        }
-        
-    useEffect(() => {
-    if(show){
-        setName(dataUserEdit.first_name)
-    }
-    },[dataUserEdit])
+  const { show, handleClose, dataUserEdit, handleEditUserFromModal } = props;
+  const [name, setName] = useState('')
+  const [job, setJob] = useState('')
 
-    return (
-       <> 
-       <Modal show={show} 
+  const handelEditUser = async () => {
+    let res = await putUpdateUser(name, job)
+    if (res && res.updatedAt) {
+      handleEditUserFromModal({
+        first_name: name,
+        id: dataUserEdit.id
+      })
+      handleClose();
+      toast.success('Update user succced');
+    }
+  }
+
+  useEffect(() => {
+    if (show) {
+      setName(dataUserEdit.first_name)
+    }
+  }, [dataUserEdit])
+
+  return (
+    <>
+      <Modal show={show}
         onHide={handleClose}
-        backdrop ='static'
+        backdrop='static'
         keyboard={false}
-       >
+      >
         <Modal.Header closeButton>
           <Modal.Title>Edit a user</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <div className='body add-new'>
-                
+          <div className='body add-new'>
+
             <form>
-                <div className="mb-3">
-                    <label className="form-label">Name</label>
-                    <input 
-                    type="text" 
-                    className="form-control" 
-                    value={name}
-                    onChange={(event) => setName(event.target.value)}
-                    />
-                    <div className="form-text"></div>
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">Job</label>
-                    <input type="text"
-                     className="form-control" 
-                     value={job}
-                     onChange={(event) => setJob(event.target.value)}/>
-                </div>
+              <div className="mb-3">
+                <label className="form-label">Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={name}
+                  onChange={(event) => setName(event.target.value)}
+                />
+                <div className="form-text"></div>
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Job</label>
+                <input type="text"
+                  className="form-control"
+                  value={job}
+                  onChange={(event) => setJob(event.target.value)} />
+              </div>
             </form>
 
-            </div>
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
@@ -72,7 +72,7 @@ const handelEditUser = async () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      </>
-    )
+    </>
+  )
 }
 export default ModalEditUser;
